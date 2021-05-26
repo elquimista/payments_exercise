@@ -18,4 +18,13 @@ RSpec.describe PaymentsController, type: :controller do
       expect(response).to have_http_status(:ok)
     end
   end
+  
+  describe '#create' do
+    let(:loan) { Loan.create!(funded_amount: 100.0) }
+
+    it 'responds with amount error' do
+      post :create, params: { amount: 150, loan_id: loan.id }
+      expect(JSON.parse(response.body).fetch("amount").first).to eq("can't be greater than outstanding balance")
+    end
+  end
 end
