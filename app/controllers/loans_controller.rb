@@ -5,10 +5,14 @@ class LoansController < ActionController::API
   end
 
   def index
-    render json: Loan.all
+    loans = Loan.all.map(&:get_outstanding_balance)
+    render json: loans
   end
 
   def show
-    render json: Loan.find(params[:id])
+    loan = Loan.find(params[:id])
+    loan.get_outstanding_balance
+    render json: loan
   end
+
 end
