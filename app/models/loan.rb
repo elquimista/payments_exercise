@@ -3,7 +3,7 @@ class Loan < ActiveRecord::Base
 
   attribute :outstanding_balance, :float
 
-  def get_outstanding_balance
+  def calculate_outstanding_balance
     self["outstanding_balance"] = funded_amount - payments.sum(:amount)
   end
 end
